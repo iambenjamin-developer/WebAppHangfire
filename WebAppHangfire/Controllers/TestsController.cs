@@ -26,7 +26,8 @@ namespace WebAppHangfire.Controllers
         public void AddOrUpdate()
         {
             RecurringJob.AddOrUpdate("myrecurringjob", () =>
-                    Console.WriteLine("Recurring!"), Cron.Minutely);
+                    Console.WriteLine("Recurring!"), "*/1 * * * *");
+                  //Console.WriteLine("Recurring!"), Cron.Minutely);
         }
 
         [HttpGet("Continuations")]
