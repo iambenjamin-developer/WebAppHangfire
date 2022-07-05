@@ -18,7 +18,10 @@ builder.Services.AddHangfire(configuration => configuration
     UseRecommendedIsolationLevel = true,
     DisableGlobalLocks = true
 }));
-builder.Services.AddHangfireServer();
+builder.Services.AddHangfireServer(options =>
+{
+    options.Queues = new[] { "alpha", "beta", "default" };
+});
 
 
 // Add services to the container.

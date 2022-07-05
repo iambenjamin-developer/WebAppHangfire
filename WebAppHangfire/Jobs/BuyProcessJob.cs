@@ -12,6 +12,7 @@ namespace WebAppHangfire.Jobs
             _context = context;
         }
 
+        [Queue("beta")]
         [JobDisplayName("Initial:Step1")]
         [AutomaticRetry(Attempts = 0)]
         public void Execute(int productId, PerformContext context)
@@ -29,7 +30,7 @@ namespace WebAppHangfire.Jobs
             }
         }
 
-
+        [Queue("beta")]
         [JobDisplayName("Catalog:Step2")]
         [AutomaticRetry(Attempts = 0)]
         public void Catalog(string backgroundJobId, string productName)
@@ -42,7 +43,7 @@ namespace WebAppHangfire.Jobs
                () => Basket(backgroundJobId, product.Name));
         }
 
-
+        [Queue("beta")]
         [JobDisplayName("Basket:Step3")]
         [AutomaticRetry(Attempts = 0)]
         public void Basket(string backgroundJobId, string productName)
@@ -55,7 +56,7 @@ namespace WebAppHangfire.Jobs
                () => Order(backgroundJobId, product.Name));
         }
 
-
+        [Queue("beta")]
         [JobDisplayName("Order:Step4")]
         [AutomaticRetry(Attempts = 0)]
         public void Order(string backgroundJobId, string productName)
@@ -68,7 +69,7 @@ namespace WebAppHangfire.Jobs
                () => Pay(backgroundJobId, product.Name));
         }
 
-
+        [Queue("beta")]
         [JobDisplayName("Pay:Step5")]
         [AutomaticRetry(Attempts = 0)]
         public void Pay(string backgroundJobId, string productName)
@@ -81,7 +82,7 @@ namespace WebAppHangfire.Jobs
                () => Delivery(backgroundJobId));
         }
 
-
+        [Queue("beta")]
         [JobDisplayName("Delivery:Step6")]
         [AutomaticRetry(Attempts = 0)]
         public void Delivery(string backgroundJobId)
