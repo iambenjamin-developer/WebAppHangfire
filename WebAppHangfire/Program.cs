@@ -1,7 +1,25 @@
 using Microsoft.EntityFrameworkCore;
 using WebAppHangfire;
+using Hangfire;
+using Hangfire.SqlServer;
 
 var builder = WebApplication.CreateBuilder(args);
+
+//Add Hangfire
+builder.Services.AddHangfire(configuration => configuration
+.SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+.UseSimpleAssemblyNameTypeSerializer()
+.UseRecommendedSerializerSettings()
+.UseSqlServerStorage(builder.Configuration.GetConnectionString("HangfireConnection"), new SqlServerStorageOptions
+{
+    CommandBatchMaxTimeout = TimeSpan.FromMinutes(5),
+    SlidingInvisibilityTimeout = TimeSpan.FromMinutes(5),
+    QueuePollInterval = TimeSpan.Zero,
+    UseRecommendedIsolationLevel = true,
+    DisableGlobalLocks = true
+}));
+builder.Services.AddHangfireServer();
+
 
 // Add services to the container.
 
@@ -24,6 +42,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseHangfireDashboard();
 
 app.MapControllers();
 
