@@ -1,3 +1,4 @@
+using Hangfire;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAppHangfire.Controllers
@@ -21,6 +22,9 @@ namespace WebAppHangfire.Controllers
         [HttpGet(Name = "GetWeatherForecast")]
         public IEnumerable<WeatherForecast> Get()
         {
+            BackgroundJob.Enqueue(() => Console.WriteLine("Hola Papeee"));
+
+
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
                 Date = DateTime.Now.AddDays(index),
